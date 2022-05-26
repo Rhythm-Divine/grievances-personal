@@ -1,0 +1,59 @@
+const mongoose = require('mongoose')
+
+const grievancesSchema = mongoose.Schema({
+    type:{
+        type:String,
+        default:'other',
+        required:true
+    },
+    status:{    
+        type:String,
+        enum:['intitiated','toAdmin','toIncharge','toStaff','completed','verified'],
+        default:'initiated',
+        required:true
+    },
+    assignedToIncharge:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'users',
+        required:false
+    },
+    assignedToStaff:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'users',
+        required:false
+    },
+    date:{
+        type:Date,
+        default:Date.now(),
+        required:true,
+    },
+    by:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'users',
+        required:false
+    },
+    urgency:{
+        type:String,
+        enum:['high','med','low'],
+        required:true,
+        default:'low'
+    },
+    reviewGiven:{
+        required:false,
+        by:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'users',
+            required:true,
+        },
+        rating:{
+            type:Number,
+            required:true,
+        },
+        description:{
+            type:String,
+            required:false
+        }
+    },
+})
+
+module.exports = mongoose.model('grievances',grievancesSchema);
