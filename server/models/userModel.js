@@ -9,6 +9,12 @@ const userSchema = new mongoose.Schema({
         minlength:[2,'name should be greater than 1 character'],
         maxlength:[15,'name should be less than 16 characters']
     },
+    branch:{
+        type:String,
+        enum:['CSE','ECE'],
+        default:"ECE",
+        required:true
+    },
     rollNumber:{
         type:Number,
         required:true,   
@@ -30,7 +36,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         validate:[validator.isEmail , "this field takes only email values"]
     },
-    moileNumber:{
+    mobileNumber:{
         type:Number,
         required:true,
         unique:true,
@@ -43,7 +49,6 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true,
-        select:false,
         minlength:[8,"password should be atleast 8 characters long"]
     },
     role:{
@@ -54,7 +59,7 @@ const userSchema = new mongoose.Schema({
 })
 
 userSchema.pre('save',async function(next){
-    if(this.isModified('password')){
+    if(!this.isModified('password')){
         next()
     }
     this.password = await bcrypt.hash(this.password , 10)

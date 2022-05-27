@@ -6,7 +6,8 @@ const userRouter = require('./routes/userRoutes')
 
 
 const server = express()
-server.use(bodyParser)
+server.use(bodyParser.urlencoded({extended:true}))
+server.use(express.json())
 
 server.use('/api/v1/',userRouter)
 
