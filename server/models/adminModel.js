@@ -2,28 +2,12 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt')
 
-const userSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
         minlength:[2,'name should be greater than 1 character'],
         maxlength:[15,'name should be less than 16 characters']
-    },
-    branch:{
-        type:String,
-        enum:['CSE','ECE'],
-        default:"ECE",
-        required:true
-    },
-    rollNumber:{
-        type:Number,
-        required:true,   
-        unique:true,
-
-    },
-    semester:{
-        type:Number,
-        required:true,
     },
     gender:{
         type:String,
@@ -40,7 +24,7 @@ const userSchema = new mongoose.Schema({
         type:Number,
         required:true,
         unique:true,
-        minlength:[10,"this field should be of 10 characters"],
+        minlength:[8,"this field should be of 10 characters"],
         maxlength:[10,"this field should be of 10 characters"]
     },
     token:{
@@ -53,16 +37,17 @@ const userSchema = new mongoose.Schema({
     },
     role:{
         type:String,
-        enum:["student","admin","staffIncharge","staff","superAdmin"],
-        default:"student",
+        enum:["admin","staffIncharge","superAdmin"],
+        default:"admin",
+        required:true,
     }
 })
 
-userSchema.pre('save',async function(next){
+adminSchema.pre('save',async function(next){
     if(!this.isModified('password')){
         next()
     }
     this.password = await bcrypt.hash(this.password , 10)
 })
 
-module.exports = mongoose.model('students',userSchema);
+module.exports = mongoose.model('incharges',adminSchema); // can  be renamed as faculty

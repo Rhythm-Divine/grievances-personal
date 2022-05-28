@@ -11,7 +11,6 @@ server.use(express.json())
 
 server.use('/api/v1/',userRouter)
 
-
 const start = ()=>{
     connectDb()
     server.listen(process.env.PORT , ()=>{
