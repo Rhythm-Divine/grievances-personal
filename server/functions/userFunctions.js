@@ -375,6 +375,30 @@ const loginStaff = async(req,res)=>{
     loginUser(req,res,staffModel,staffMem.id,password)
 }
 
+const logoutUser = (req,res)=>{
+    res.clearCookie('token')
+    res.status(200).json({
+        msg:"logged out successfully"
+    })
+}
+
+const getStaffRespectiveToStaffIncharge = async(req,res)=>{
+    // console.log(".......................................................")
+    // console.log(req.user)
+    const category = req.user.category
+    // console.log(category)
+    const staffMem = await staffModel.find()
+    
+    if(!staffMem){
+        return res.status(400).json({
+            err:"no staff of this category"
+        })
+    }
+
+    res.status(200).json({
+        staff:staffMem
+    })
+}
 
 module.exports = {
     registerUser,
@@ -396,5 +420,7 @@ module.exports = {
     loginStudent,
     loginAdmin,
     loginStaffIncharge,
-    loginStaff
+    loginStaff,
+    logoutUser,
+    getStaffRespectiveToStaffIncharge
 }

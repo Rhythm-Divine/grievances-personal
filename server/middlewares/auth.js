@@ -4,6 +4,7 @@ const staffModel = require('../models/staffModel')
 const userModel = require('../models/userModel')
 
 const isAuthenticated = async(req,res,next)=>{
+    console.log("here")
     const token = req.cookies.token
 
     if(!token){
@@ -13,7 +14,7 @@ const isAuthenticated = async(req,res,next)=>{
     }
 
     const tokenValue =  jwt.verify(token,process.env.JWT_SECRET)
-    // console.log(tokenValue)
+    console.log(tokenValue)
 
     let user = await userModel.findById(tokenValue.id)
     if(!user){

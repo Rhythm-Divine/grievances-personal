@@ -18,12 +18,17 @@ const { registerUser,
         loginStudent,
         loginAdmin,
         loginStaffIncharge,
-        loginStaff} = require('../functions/userFunctions')
+        loginStaff,
+        logoutUser,
+        getStaffRespectiveToStaffIncharge} = require('../functions/userFunctions')
 const { isAuthenticated } = require('../middlewares/auth')
 
 const router = express.Router()
 
 
+
+// for all
+router.route('/logout').post(logoutUser)
 
 //super admin routes
 router.route('/registerAdmin').post(isAuthenticated,createAdmin)
@@ -52,10 +57,8 @@ router.route('/registerStaff').post(createStaff)
 router.route('/staff/:id').get(getSingleStaff)
 router.route('/delete/staff/:id').delete(removeStaff)
 router.route('/login/staffIncharge').post(loginStaffIncharge)
+router.route('/staffs/me').get(isAuthenticated,getStaffRespectiveToStaffIncharge) // get staff of same category as that of instructor 
 
-// ------------------------ below route to be made after jwt --------------------------------------//
-router.route('/staff/my').get() // get staff of same category as that of instructor 
-// ------------------------------------------------------------------------------------------------//
 
 
 //staff routes
