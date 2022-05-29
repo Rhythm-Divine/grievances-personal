@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const adminSchema = new mongoose.Schema({
     name:{
@@ -49,5 +50,22 @@ adminSchema.pre('save',async function(next){
     }
     this.password = await bcrypt.hash(this.password , 10)
 })
+
+adminSchema.methods.comparePassword = async function(password){
+    // console.log(this)
+    const isPassMatched = await bcrypt.compare(password,this.password)
+    // console.log(isPassMatched)
+    return isPassMatched;
+}
+
+adminSchema.methods.createJwtToken = function(){
+    return jwt.sign(
+        {id:this._id},
+        process.env.JWT_SECRET,
+        {
+            expiresIn:process.env.JWT_EXPIRES
+        }
+    )
+}
 
 module.exports = mongoose.model('incharges',adminSchema); // can  be renamed as faculty

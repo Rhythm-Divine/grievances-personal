@@ -1,6 +1,7 @@
 const userModel = require('../models/userModel')
 const adminModel = require('../models/adminModel')
 const staffModel = require('../models/staffModel')
+const {loginUser} = require('../utils/login')
 
 const registerUser = async(req,res)=>{ // creating user
     const {name,rollNumber,semester,gender,collegeMail,mobileNumber,password,confirmPassword,branch} = req.body
@@ -45,6 +46,7 @@ const deleteUser = async(req,res)=>{
 }
 
 const getAllusers = async(req,res)=>{
+    // console.log("req.user is :",req.user)
     const users = await userModel.find()
 
 
@@ -315,6 +317,65 @@ const removeStaff = async(req,res)=>{
     })
 }
 
+const loginStudent = async(req,res)=>{
+    const {email,password} = req.body
+    const student = await userModel.findOne({collegeMail:email})
+    // console.log(email)
+    // console.log(student.id)
+    if(!student){
+        return res.status(400).json({
+            err:"student with this email does not exists"
+        })
+    }
+    loginUser(req,res,userModel,student.id,password)
+}
+
+const loginAdmin = async(req,res)=>{
+    const {email,password} = req.body
+    const admin = await adminModel.findOne({collegeMail:email})
+    if(!admin){
+        return res.status(400).json({
+            err:"admin with this email does not exists"
+        })
+    }
+    loginUser(req,res,adminModel,admin.id,password)
+}
+
+const loginStaffIncharge = async(req,res)=>{
+    const {email,password} = req.body
+    const staffMem = await staffModel.findOne({collegeMail:email})
+    if(!staffMem){
+        return res.status(400).json({
+            err:"staff incharge with this email does not exists"
+        })
+    }
+    if(staffMem.role !== "staffIncharge"){
+        return res.status(400).json({
+            err:"you need to be staff incharge to access this"
+        })
+    }
+
+    loginUser(req,res,staffModel,staffMem.id,password)
+}
+
+const loginStaff = async(req,res)=>{
+    const {email,password} = req.body
+    const staffMem = await staffModel.findOne({collegeMail:email})
+    if(!staffMem){
+        return res.status(400).json({
+            err:"staff with this email does not exists"
+        })
+    }
+    if(staffMem.role !== "staff"){
+        return res.status(400).json({
+            err:"you need to be a staff member to access this"
+        })
+    }
+
+    loginUser(req,res,staffModel,staffMem.id,password)
+}
+
+
 module.exports = {
     registerUser,
     deleteUser,
@@ -331,5 +392,9 @@ module.exports = {
     getSingleStaffIncharge,
     removeStaffIncharge,
     getSingleStaff,
-    removeStaff
+    removeStaff,
+    loginStudent,
+    loginAdmin,
+    loginStaffIncharge,
+    loginStaff
 }

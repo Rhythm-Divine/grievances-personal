@@ -1,37 +1,65 @@
 const express = require('express')
-const { registerUser, deleteUser, getAllusers, createAdmin, removeAdmin, getAllAdmins, getSingleAdmin, createStaffIncharge, createStaff, getAllStaffIncharges, getAllStaff, getSingleUser, getSingleStaffIncharge, removeStaffIncharge, getSingleStaff, removeStaff } = require('../functions/userFunctions')
+const { registerUser,
+        deleteUser,
+        getAllusers, 
+        createAdmin, 
+        removeAdmin, 
+        getAllAdmins, 
+        getSingleAdmin, 
+        createStaffIncharge, 
+        createStaff, 
+        getAllStaffIncharges, 
+        getAllStaff, 
+        getSingleUser, 
+        getSingleStaffIncharge, 
+        removeStaffIncharge, 
+        getSingleStaff, 
+        removeStaff,
+        loginStudent,
+        loginAdmin,
+        loginStaffIncharge,
+        loginStaff} = require('../functions/userFunctions')
+const { isAuthenticated } = require('../middlewares/auth')
 
 const router = express.Router()
 
 
 
 //super admin routes
-router.route('/registerAdmin').post(createAdmin)
-router.route('/delete/admin/:id').delete(removeAdmin)
-router.route('/admins/all').get(getAllAdmins)
-router.route('/admins/:id').get(getSingleAdmin)
+router.route('/registerAdmin').post(isAuthenticated,createAdmin)
+router.route('/delete/admin/:id').delete(isAuthenticated,removeAdmin)
+router.route('/admins/all').get(isAuthenticated,getAllAdmins)
+router.route('/admins/:id').get(isAuthenticated,getSingleAdmin)
 
 // student routes
 router.route('/registerStudent').post(registerUser)
+router.route('/login/student').post(loginStudent)
 
 
 //admin routes
-router.route('/registerStaffIncharge').post(createStaffIncharge)
-router.route('/delete/student/:id').delete(deleteUser)
-router.route('/students/all').get(getAllusers)
-router.route('/student/:id').get(getSingleUser)
-router.route('/staffIncharge/all').get(getAllStaffIncharges)
-router.route('/staffIncharge/:id').get(getSingleStaffIncharge)
-router.route('/delete/staffIncharge/:id').delete(removeStaffIncharge)
+router.route('/registerStaffIncharge').post(isAuthenticated,createStaffIncharge)
+router.route('/delete/student/:id').delete(isAuthenticated,deleteUser)
+router.route('/students/all').get(isAuthenticated,getAllusers)
+router.route('/student/:id').get(isAuthenticated,getSingleUser)
+router.route('/staffIncharge/all').get(isAuthenticated,getAllStaffIncharges)
+router.route('/staffIncharge/:id').get(isAuthenticated,getSingleStaffIncharge)
+router.route('/delete/staffIncharge/:id').delete(isAuthenticated,removeStaffIncharge)
+router.route('/staff/all').get(isAuthenticated,getAllStaff)
+router.route('/login/admin').post(loginAdmin)
 
 // staff incharge routes
 router.route('/registerStaff').post(createStaff)
-router.route('/staff/all').get(getAllStaff)
 router.route('/staff/:id').get(getSingleStaff)
 router.route('/delete/staff/:id').delete(removeStaff)
+router.route('/login/staffIncharge').post(loginStaffIncharge)
+
+// ------------------------ below route to be made after jwt --------------------------------------//
+router.route('/staff/my').get() // get staff of same category as that of instructor 
+// ------------------------------------------------------------------------------------------------//
 
 
 //staff routes
+router.route('/login/staff').post(loginStaff)
 
 
 module.exports = router
