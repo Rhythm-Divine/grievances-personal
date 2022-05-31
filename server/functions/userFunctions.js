@@ -46,6 +46,7 @@ const deleteUser = async(req,res)=>{
 }
 
 const getAllusers = async(req,res)=>{
+    console.log(res)
     // console.log("req.user is :",req.user)
     const users = await userModel.find()
 

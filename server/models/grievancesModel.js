@@ -8,18 +8,26 @@ const grievancesSchema = mongoose.Schema({
     },
     status:{    
         type:String,
-        enum:['intitiated','toAdmin','toIncharge','toStaff','completed','verified'],
+        enum:['initiated','toAdmin','toIncharge','toStaff','completed','verified'],
         default:'initiated',
         required:true
     },
+    description:{
+        type:String,
+        required:true,
+    },
+    assignedToAdmin:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'incharges',
+    },
     assignedToIncharge:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'users',
+        ref:'staff',
         required:false
     },
     assignedToStaff:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'users',
+        ref:'staff',
         required:false
     },
     date:{
@@ -29,8 +37,8 @@ const grievancesSchema = mongoose.Schema({
     },
     by:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'users',
-        required:false
+        ref:'students',
+        required:true
     },
     urgency:{
         type:String,
@@ -42,18 +50,18 @@ const grievancesSchema = mongoose.Schema({
         required:false,
         by:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:'users',
-            required:true,
+            ref:'students',
+            // required:true,
         },
         rating:{
             type:Number,
-            required:true,
+            // required:true,
         },
         description:{
             type:String,
-            required:false
+            // required:false
         }
     },
 })
 
-module.exports = mongoose.model('grievances',grievancesSchema);
+module.exports = mongoose.model('grievances',grievancesSchema); // can be renamed as issues
