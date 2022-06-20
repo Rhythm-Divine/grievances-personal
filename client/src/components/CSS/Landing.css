@@ -1,78 +1,58 @@
-:root{
-    --primary:#ACC6FF;
-    --on-primary:#002D6C;
-    --primary-container:#004399;
-    --on-primary-container:#D7E2FF;
-    --on-background:#E4E2E6;
-    --surface: #1B1B1E;
-    --on-surface:#E4E2E6;
-}
 *{
-    border: 0;
+    padding: 0;
     margin: 0;
-    outline: 0;
     box-sizing: border-box;
 }
 .flex-home{
     display: flex;
-    flex-direction: row;
 }
 .flex-home-left{
-    padding-left: 5%;
-    padding-top: 15%;
-    font-size: 4rem;
-    /* background-color: #44464E; */
-    width: 60vw;
+    margin-left: 10%;
+    margin-top: 10%;
     display: flex;
     flex-direction: column;
+    width: 50%;
 }
-#span1{
-    margin-bottom: 1%;
+.home-svg{
+    width: 80%;
+    height: auto;
+}
+.span1{
+    width: 50%;
+}
+.span2{
+    margin-top: 4%;
     font-size: 4rem;
-    font-weight: 700;
 }
-
-#span2{
-    /* margin-bottom: 26px; */
-    margin-bottom: 0.6%;
-    font-size: 1.5rem;
-    color: var(--on-surface);
-}
-#span3{
-    font-size: 3rem;
+.span3{
+    margin-top: 1%;
+    font-size: 1.1rem;
+    color: #5C5E66;
 }
 .flex-home-right{
-    background-color: var(--surface);
-    /* padding-right: 5%; */
-    height: 100vh;
-    width: 40vw;
+    width: 50%;
 }
-
-.btns-home{
-    /* margin-left: 50%; */
-    transform: translate(25%);
+.form-container{
+    background-color:#1B1B1E ;
+    margin: 20% 5% ;
+    width: 80%;
+    height: 75%;
     display: flex;
-    flex-direction: column;
-    padding-top: 40%;
+    justify-content: center;
+    align-items: center;
+    box-shadow: #1B1B1E 0px 5px 15px;
 }
-.btns-home button{
-    width: 40%;
-    font-size: 1.6rem;
-    border-radius: 100px;
-    padding: 15px 24px;
-    background: var(--primary);
-    color: var(--on-primary);
-    cursor: pointer;
+.form{
+    width: 100%;
+    /* margin-left:10%; */
+    transform: translateX(15%);
+    /* transform: translateY(1%); */
 }
-.btns-home button~button{
-    margin-top: 5%;
-    background-color: transparent;
-    border: 2px solid var(--primary);
-    color: var(--primary);
-}
-
-@keyframes ani {
-    0%{
-        
-    }
+hr{
+    margin: 5% 4%;
+    width: 60%;
+    border: 1px solid #5C5E66;
+    outline: none;
+    height: 1px;
+    transform: translateX(-5%);
 }
